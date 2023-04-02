@@ -23,7 +23,7 @@ The app will send the message to the server and display the response, if any, in
 
 ## Credits
 
-Socket Tester was created by [mobinln](https://github.com/mobinln).
+Socket Tester is created by [mobinln](https://github.com/mobinln).
 
 ## Contributing
 
