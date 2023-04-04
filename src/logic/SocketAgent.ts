@@ -1,21 +1,17 @@
 import { io, Socket } from "socket.io-client";
 
-import {
-  getPreviousUrl,
-  removePreviousUrl,
-  setPreviousUrl,
-} from "./localStorage";
+import LocalStorageAdapter from "./LocalStorageAdapter";
 
 export type listenerType = (args: any) => any;
 
 class SocketAgent {
   private static instance: SocketAgent;
   private static socket: Socket | null = null;
+  private previousUrl = new LocalStorageAdapter("previous_url");
 
   private constructor() {
-    const previousUrl = getPreviousUrl();
-    if (previousUrl) {
-      SocketAgent.socket = io(previousUrl);
+    if (this.previousUrl.value) {
+      SocketAgent.socket = io(this.previousUrl.value);
 
       this.subscribe("connect", () => {
         console.log("SocketAgent connected");
@@ -43,7 +39,8 @@ class SocketAgent {
     if (SocketAgent.socket) {
       this.disconnect();
     }
-    setPreviousUrl(url);
+
+    this.previousUrl.value = url;
     SocketAgent.socket = io(url);
   }
 
@@ -80,7 +77,7 @@ class SocketAgent {
   public disconnect() {
     SocketAgent.socket?.disconnect();
     SocketAgent.socket = null;
-    removePreviousUrl();
+    this.previousUrl.value = null;
   }
 }
 
