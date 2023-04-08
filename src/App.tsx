@@ -11,10 +11,10 @@ function App() {
         <Header />
         <hr />
         <div className="row">
-          <div className="column">
+          <div className="column column-50">
             <EmitEvent />
           </div>
-          <div className="column">
+          <div className="column column-50">
             <Log />
           </div>
         </div>
